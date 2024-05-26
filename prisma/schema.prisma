@@ -1,0 +1,57 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Request {
+  id        Int      @id @default(autoincrement())
+  itemName  String
+  brandName String
+  amount    Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  createdAt DateTime @default(now())
+  isExpired Boolean  @default(false)
+}
+
+model User {
+  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  password    String
+  fullName    String
+  userType    UserType
+  requests    Request[]
+  requestBids RequestBid[]
+}
+
+model RequestBid {
+  id        Int      @id @default(autoincrement())
+  itemName  String
+  brandName String
+  amount    Int
+  price     Int
+  bidAmount Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  createdAt DateTime @default(now())
+  isExpired Boolean  @default(false)
+}
+
+model Link {
+  id     Int      @id @default(autoincrement())
+  userId String // Assuming userId is a string, adjust as needed
+  token  String   @unique
+  expiry DateTime
+}
+
+enum UserType {
+  ADMIN
+  IMPORTER
+  DISTRIBUTOR
+  SALESPERSON
+}
