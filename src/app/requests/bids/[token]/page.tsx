@@ -14,7 +14,6 @@ export default function VerifyLink({ params }: Props) {
   const [message, setMessage] = useState<string>("Loading...");
 
   useEffect(() => {
-      console.log("token 1",params)
     const fetchLinkData = async () => {
         console.log("token2 ",token)
         if (token) {

@@ -95,7 +95,7 @@ const NewRequest = () => {
                     </thead>
                     <tbody>
                       {requests.map((request, i: number) => (
-                        <tr className="hover:bg-gray-300">
+                        <tr key={i} className="hover:bg-gray-300">
                           <th>{i + 1}</th>
                           <td>{request.itemName}</td>
                           <td>{request.brandName}</td>

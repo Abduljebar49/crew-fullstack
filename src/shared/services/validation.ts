@@ -36,7 +36,7 @@ const phoneNumberAutoFormat = (phoneNumber: string): string => {
     return number.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
 };
 
-export default {
+const validationUtils = {
     IsInvalidEmail,
     IsEmptyString,
     IsDifferentString,
@@ -46,4 +46,6 @@ export default {
     emptyPassword,
     minLength,
     phoneNumberAutoFormat
-}
+};
+
+export default validationUtils;

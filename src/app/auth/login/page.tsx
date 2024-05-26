@@ -115,7 +115,7 @@ const LoginPage = () => {
               className="text-button-primary hover:text-button-primary-hover cursor-pointer mt-[10px]  mb-[20px]"
               onClick={() => goTo("/auth/register")}
             >
-              Don't have an account? Sign Up.
+              Don&apos;t have an account? Sign Up.
             </div>
           </div>
           <div className="flex flex-col gap-4">
