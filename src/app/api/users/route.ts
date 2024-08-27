@@ -32,10 +32,16 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const body: User = await request.json();
+  console.log("body  : ",body);
   try {
     const isValid = userSchema.safeParse(body);
-    if (!isValid.success)
-      return AResponse([], erMessage(isValid.error.errors[0].message));
+
+    if (!isValid.success){
+      return AResponse([], erMessage(isValid.error.errors[0].message),401);
+    }
+    console.log("how to upgrade")
+    const isExistData = await prisma.user.findUnique({ where: { email: body.email } });
+    if (isExistData) return AResponse([], erMessage("Duplicate value found"), 409);
 
     const salt = await bcrypt.genSaltSync(10, "a");
     body.password = bcrypt.hashSync(body.password, salt);

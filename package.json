@@ -10,7 +10,7 @@
     "preview-email": "email dev -p 3030"
   },
   "dependencies": {
-    "@prisma/client": "^5.11.0",
+    "@prisma/client": "^5.18.0",
     "@react-email/components": "^0.0.7",
     "@types/js-cookie": "^3.0.6",
     "@types/nodemailer": "^6.4.14",

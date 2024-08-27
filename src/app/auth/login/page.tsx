@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { LoginInput } from "@/shared/interfaces/user";
 import ShowError from "@/components/ShowError";
 import Cookies from "js-cookie";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -64,13 +66,20 @@ const LoginPage = () => {
       if (!response.ok) {
         throw new Error("Failed to send requests.");
       }
-      const data = await response.json();
-      Cookies.set("user", JSON.stringify(data));
-      alert("you have successfully logged in!");
-      setFormData(initData);
-      setTimeout(() => {
-        goTo("/");
-      }, 2000);
+      const responseData = await response.json();
+      // alert(responseData.data.body);
+      console.log("resonse ",responseData)
+      if (responseData.data.status == 200 || responseData.data.token) {
+        toast.success(responseData.data.message);
+        Cookies.set("user", JSON.stringify(responseData));
+        setFormData(initData);
+        setTimeout(() => {
+          goTo("/");
+        }, 2000);
+      }else{
+        toast.error(responseData.data.body);
+      }
+      console.log(responseData);
     } catch (error: any) {
       console.error("Error sending requests:", error.message);
     }
@@ -106,13 +115,13 @@ const LoginPage = () => {
     return true;
   };
   return (
-    <div className="flex  w-full min-h-screen bg-[#F3F4F6]">
+    <div className="flex  w-full min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
       <div className="flex h-screen w-full items-center justify-center">
         <div className="rounded-lg bg-blue-100 p-10 pt-5 max-w-[600px] w-full">
           <div className="flex w-full flex-col justify-center text-center">
             <div className=" text-3xl font-extrabold">Login Page</div>
             <div
-              className="text-button-primary hover:text-button-primary-hover cursor-pointer mt-[10px]  mb-[20px]"
+              className="text-blue-700 hover:text-button-primary-hover cursor-pointer mt-[10px]  mb-[20px]"
               onClick={() => goTo("/auth/register")}
             >
               Don&apos;t have an account? Sign Up.
@@ -166,6 +175,7 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
@@ -343,4 +353,3 @@ export default LoginPage;
 //     </div>
 //   );
 // };
-

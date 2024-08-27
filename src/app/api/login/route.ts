@@ -23,29 +23,36 @@ export async function POST(request: NextRequest) {
         email: body.email,
       },
     });
+    console.log("error : ",user)
 
-    if (!user) {
-      return AResponse({
+    if (user == null || user == undefined) {
+      console.log("user ; ")
+     return AResponse({
         status: 401,
         body: "Invalid email or password",
       });
+      return;
     }
 
+    console.log("sucessfully logged in 1")
+    
     const passwordMatch = await bcrypt.compare(body.password, user.password);
-
+    
     if (!passwordMatch) {
       return AResponse({
         status: 401,
         body: "Invalid email or password",
       });
     }
-
+    console.log("sucessfully logged in 2")
+    
     const token = await new jose.SignJWT(user)
-      .setProtectedHeader({ alg: "HS256" })
-      .setIssuedAt()
-      .setExpirationTime("2h")
-      .sign(encodedSecret);
-
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime("2h")
+    .sign(encodedSecret);
+    
+    console.log("sucessfully logged in 3")
     return AResponse({
       message: "Login successful",
       token,

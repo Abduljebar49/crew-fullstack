@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Request } from "@/shared/validators/schema";
 import Cookies from "js-cookie";
+import { toast, ToastContainer } from "react-toastify";
 
 const NewRequest = () => {
 
@@ -35,7 +36,6 @@ const NewRequest = () => {
 
   const handleSubmit = () => {
     setErrorExist(false);
-    console.log("handleSubmit : ");
     if (isFormValid()) {
       setRequests([...requests, { ...formData }]);
       setFormData(initData);
@@ -61,8 +61,7 @@ const NewRequest = () => {
         throw new Error("Failed to send requests.");
       }
       setRequests([]);
-      console.log("Requests sent successfully!");
-      alert("Requests sent successfully!");
+      toast.success("Requests sent successfully!");
     } catch (error: any) {
       console.error("Error sending requests:", error.message);
     }

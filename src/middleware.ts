@@ -9,13 +9,20 @@ export default function myMiddleware(request: NextRequest) {
   const isStaticAsset = request.url.includes(".");
   const isLoginRoute = request.url.includes("/auth/login");
   const isLoginApiRoute = request.url.includes("/api/login");
+  const isRegisterApiRoute = request.url.includes("/api/user");
   const isRegisterRoute = request.url.includes("/auth/register");
 
   const url = request.nextUrl.clone();
   url.pathname = "/auth/login";
 
-  if (isStaticAsset || isLoginRoute || isRegisterRoute || isLoginApiRoute) {
-    return NextResponse.next();
+  if (isStaticAsset || isLoginRoute || isRegisterRoute || isLoginApiRoute || isRegisterApiRoute) {
+    if(isRegisterApiRoute){
+      if(request.method=="POST"){
+        return NextResponse.next();        
+      }
+    }else{
+      return NextResponse.next();
+    }
   }
 
   const cookie = request.headers.get("cookie");
