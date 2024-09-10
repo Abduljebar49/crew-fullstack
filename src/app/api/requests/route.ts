@@ -16,11 +16,15 @@ const tag = "requests";
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const searchParams = new URLSearchParams(url.search);
-  
-  const id = searchParams.get('id');
 
+  const id = searchParams.get("id");
+  const userId = searchParams.get("userId");
   let data: any;
-  if (id) {
+  if (userId) {
+    data = await prisma.request.findMany({
+      where: { userId: parseInt(userId) },
+    });
+  } else if (id) {
     data = await prisma.request.findMany({
       where: { id: parseInt(id) },
     });
@@ -41,7 +45,6 @@ export async function POST(request: NextRequest) {
   return AResponse(data, Message(tag, RStatus.CREATED));
 }
 
-
 export async function PUT(
   request: NextRequest,
   { params: { id } }: { params: { id: string } }
@@ -59,7 +62,6 @@ export async function PUT(
   });
   return AResponse(newPost, Message(tag, RStatus.UPDATED));
 }
-
 
 export async function DELETE(
   request: NextRequest,

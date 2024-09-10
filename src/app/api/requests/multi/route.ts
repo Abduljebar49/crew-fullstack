@@ -19,7 +19,6 @@ export async function POST(request: NextRequest) {
   const isValidEntries = data.every(
     (entry) => requestSchema.safeParse(entry).success
   );
-  console.log(isValidEntries);
   if (!isValidEntries) {
     return AResponse(isValidEntries, erMessage("Some entries have invalid formats."),401);
   }

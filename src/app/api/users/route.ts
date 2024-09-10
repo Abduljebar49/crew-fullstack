@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import bcrypt from "bcrypt";
+import bcrypt from 'bcryptjs';
+
 import {
   User,
   UserEdit,
@@ -32,7 +33,6 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const body: User = await request.json();
-  console.log("body  : ",body);
   try {
     const isValid = userSchema.safeParse(body);
 
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
     const isExistData = await prisma.user.findUnique({ where: { email: body.email } });
     if (isExistData) return AResponse([], erMessage("Duplicate value found"), 409);
 
-    const salt = await bcrypt.genSaltSync(10, "a");
+    const salt = bcrypt.genSaltSync(10);
     body.password = bcrypt.hashSync(body.password, salt);
 
     const data = await prisma.user.create({
@@ -67,7 +67,6 @@ export async function PUT(
   { params: { id } }: { params: { id: string } }
 ) {
   const body: UserEdit = await request.json();
-  console.log("body : ", body);
   const isValid = userEditSchema.safeParse(request.body);
   if (!isValid.success) {
     return AResponse([], erMessage(isValid.error.errors[0].message));

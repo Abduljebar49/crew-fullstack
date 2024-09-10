@@ -1,11 +1,10 @@
-
 import * as jose from "jose";
+import Router from "next/router"; // Next.js router
 import { JWTPayload } from "jose";
 
 const jwtConfig = {
   secret: new TextEncoder().encode('ab'),
 };
-
 
 export const isAuthenticated = async (token: any) => {
   if (token) {
@@ -19,9 +18,7 @@ export const isAuthenticated = async (token: any) => {
       } else {
         return false;
       }
-    } catch (err) {
-      console.error("isAuthenticated error: ", err);
-
+    } catch (err: any) {
       return false;
     }
   } else {

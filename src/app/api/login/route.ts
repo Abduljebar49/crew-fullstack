@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
+import bcrypt from 'bcryptjs';
 import jwt from "jsonwebtoken";
 import { AResponse } from "@/contants";
 import * as jose from "jose";
@@ -15,6 +15,7 @@ const secretKey = "a";
 const encodedSecret = new TextEncoder().encode("ab");
 
 export async function POST(request: NextRequest) {
+  console.log("user : ",)
   const body: IUser = await request.json();
   console.log("body ; ", body);
   try {

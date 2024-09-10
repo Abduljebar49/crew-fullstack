@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import validation from "@/shared/services/validation";
 import { IUserInput, UserType } from "@/shared/interfaces/user";
 import ShowError from "@/components/ShowError";

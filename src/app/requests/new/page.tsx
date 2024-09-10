@@ -5,10 +5,9 @@ import Cookies from "js-cookie";
 import { toast, ToastContainer } from "react-toastify";
 
 const NewRequest = () => {
-
   const user = Cookies.get("user");
   var userId = 1;
-  if(user){
+  if (user) {
     const userData = JSON.parse(user!);
     userId = userData.data.userId!;
   }
@@ -20,7 +19,6 @@ const NewRequest = () => {
     userId: userId,
   };
   const [formData, setFormData] = useState<Request>(initData);
-  const [errorExist, setErrorExist] = useState(false);
   const [requests, setRequests] = useState<Request[]>([]);
 
   const isFormValid = (): boolean => {
@@ -35,19 +33,17 @@ const NewRequest = () => {
   };
 
   const handleSubmit = () => {
-    setErrorExist(false);
     if (isFormValid()) {
       setRequests([...requests, { ...formData }]);
       setFormData(initData);
     } else {
-      setErrorExist(true);
+      toast.error("Please fill all the fields correctly");
+      console.log("please fill all the fields correctly");
     }
     console.log(formData);
   };
 
   const handleSubmitAll = async () => {
-    console.log("all requests: ", requests);
-
     try {
       const response = await fetch("http://localhost:3000/api/requests/multi", {
         method: "POST",
@@ -137,7 +133,7 @@ const NewRequest = () => {
               </svg>
               <span className="pl-2 mx-1">Create new request</span>
             </button>
-            <div className="bg-white rounded-lg shadow">
+            <div className="flex flex-col bg-white rounded-lg shadow">
               <div className="flex">
                 <div className="flex-1 py-5 pl-5 overflow-hidden">
                   <h1 className="inline text-2xl font-semibold leading-none">
@@ -145,14 +141,7 @@ const NewRequest = () => {
                   </h1>
                 </div>
               </div>
-              <div className="flex py-4">
-                {errorExist && (
-                  <div className="justify-center text-center text-orange-600">
-                    All field requred,
-                  </div>
-                )}
-              </div>
-              <div className="px-5 pb-5 min-w-96">
+              <div className="px-5 pb-5 w-full">
                 <div className="flex flex-col my-4 ">
                   <label htmlFor="itemName">Enter Item Name</label>
                   <input

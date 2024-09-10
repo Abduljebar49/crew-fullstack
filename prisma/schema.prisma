@@ -43,7 +43,7 @@ model RequestBid {
 
 model Link {
   id     Int      @id @default(autoincrement())
-  userId String // Assuming userId is a string, adjust as needed
+  userId String 
   token  String   @unique
   expiry DateTime
 }
